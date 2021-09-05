@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  enigma_worker:
+    image: jackgray/enigma:latest
+    deploy:
+      replicas: 1
+      labels: [APP=enigma]
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+        window: 120s
+      placement:
+        constraints: [node.role == worker]
+    volumes:
+      - /MRI_DATA/enigma_tmp
+
+volumes:
+  db-data:
